@@ -2,7 +2,7 @@ package com.ayanokoujifl.helpdesk.domain.enums;
 
 public enum Perfil {
 
-	ADMIN(0, "Administrador"), CLIENTE(1, "Cliente"), TECNICO(2, "Tecnico");
+	ADMIN(0, "ROLE_ADMIN"), CLIENTE(1, "Cliente"), TECNICO(2, "Tecnico");
 
 	private Integer codigo;
 	private String descricao;
