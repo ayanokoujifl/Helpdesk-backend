@@ -33,6 +33,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		try {
+			response.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
+			System.out.println(response.getHeader("Access-Control-Allow-Origin"));
 			CredenciaisDTO creds = new ObjectMapper().readValue(request.getInputStream(), CredenciaisDTO.class);
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 					creds.getEmail(), creds.getSenha(), new ArrayList<>());
@@ -49,6 +51,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String username = ((UserSS) authResult.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
 		response.setHeader("access-control-expose-headers", "Authorization");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
 		response.setHeader("Authorization", "Bearer " + token);
 	}
 
@@ -62,11 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private CharSequence json() {
 		Long date = new Date().getTime();
-		return "{"
-				+ "\"timestamp\":" + date + ", " 
-				+ "\"status\": 401, " 
-				+ "\"error\": \"Não autorizado\", "
-				+ "\"message\": \"Email ou senha inválidos\", "
-				+ "\"path\": \"/login\"}";
+		return "{" + "\"timestamp\":" + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
+				+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
 	}
 }

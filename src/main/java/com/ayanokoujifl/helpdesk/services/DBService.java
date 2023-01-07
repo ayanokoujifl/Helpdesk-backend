@@ -28,21 +28,21 @@ public class DBService {
 	@Autowired 
 	ChamadoRepository chamadoRepository;
 
-	@Autowired
+	@Autowired 
 	BCryptPasswordEncoder encoder;
 	
 	public void instantiateDatabase() {
 
 		Tecnico tec1 = new Tecnico(null, "Valdir Cesar", "60946684480", "valdir@email.com", encoder.encode("123"));
 		tec1.addPerfis(Perfil.ADMIN);
-		Tecnico tec2 = new Tecnico(null, "Luis Gustavo", "16564423616", "guleite3@gmail.com", encoder.encode("141730"));
+		Tecnico tec2 = new Tecnico(null, "Luis Gustavo", "16564423616", "guleite3@gmail.com", encoder.encode("123"));
 		tec2.addPerfis(Perfil.ADMIN);
 
 		Cliente cli1 = new Cliente(null, "Linus Torvalds", "27196711262", "linus@gmail.com", encoder.encode("123"));
 
 		Chamado c1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado01", "Primeiro chamado", tec1, cli1);
 
-		tecnicoRepository.saveAll(Arrays.asList(tec1));
+		tecnicoRepository.saveAll(Arrays.asList(tec1,tec2));
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		chamadoRepository.saveAll(Arrays.asList(c1));
 	}
