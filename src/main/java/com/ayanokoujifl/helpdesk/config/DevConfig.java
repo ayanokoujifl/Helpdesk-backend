@@ -21,7 +21,7 @@ public class DevConfig {
 	@Bean
 	public boolean instatianteDatabase() {
 		if (value.equals("create")) {
-			dbService.instantiateDatabase();
+			dbService.devInstantiate();
 			return true;
 		}else {
 			return false;
