@@ -28,7 +28,7 @@ public class TecnicoService {
 
 	@Autowired
 	BCryptPasswordEncoder encoder;
-	
+
 	public Tecnico findById(Integer id) {
 		Optional<Tecnico> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Tecnico não encontrado! ID: " + id));
@@ -49,6 +49,9 @@ public class TecnicoService {
 	public Tecnico update(Integer id, @Valid TecnicoDTO objDto) {
 		objDto.setId(id);
 		Tecnico obj = findById(id);
+		if (!objDto.getSenha().equals(obj.getSenha())) {
+			objDto.setSenha(encoder.encode(objDto.getSenha()));
+		}
 		validaPorCpfEmail(objDto);
 		obj = new Tecnico(objDto);
 		return repository.saveAndFlush(obj);
@@ -60,7 +63,7 @@ public class TecnicoService {
 			throw new DataIntegrityViolationException(
 					obj.getNome() + " não pode ser deletado pois possui chamados atrelados a ele!");
 		}
-			repository.deleteById(id);
+		repository.deleteById(id);
 	}
 
 	private void validaPorCpfEmail(TecnicoDTO objDto) {
